@@ -4,8 +4,8 @@ import { Menu, X, Search, ChevronDown } from 'lucide-react';
 
 // নেভিগেশন লিঙ্কগুলি সংজ্ঞায়িত করা হলো
 const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "Fungo-Killer", href: "#fungo" },
+    { name: "Home", href: "/" },
+    { name: "Fungo-Killer", href: "/fungoKillerPage" },
     { name: "Krampfadern", href: "#krampfadern" },
     { name: "Simplá 360", href: "#simpla" },
     { name: "Abnehmen", href: "#abnehmen" },
@@ -54,7 +54,7 @@ const App = () => {
     );
 
     return (
-        <div className="min-h-screen bg-gray-50 font-sans">
+        <div className=" bg-gray-50 font-sans">
             <header className="bg-black shadow-lg sticky top-0 z-50">
                 <nav className="mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16 md:h-20">
