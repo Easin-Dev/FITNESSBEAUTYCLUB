@@ -21,37 +21,42 @@ const FungoKillerPage = () => {
         const [isSubmitting, setIsSubmitting] = useState(false);
         const [message, setMessage] = useState('');
 
-        const handleSubmit = useCallback(async (e) => {
+        const handleSubmit = async (e) => {
             e.preventDefault();
-            setMessage('');
 
-            if (!name || !phone || !country) {
-                setMessage({ type: 'error', text: 'Bitte füllen Sie alle erforderlichen Felder aus.' });
-                return;
-            }
+            const payload = {
+                name,
+                phone,
+                country,
+                productKey: "fungo_killer",
+            };
 
-            setIsSubmitting(true);
+            console.log("📤 Sending order:", payload);
 
-            // Simulate API call delay
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            const res = await fetch("/api/order", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
 
-            // Mock success/failure
-            if (Math.random() > 0.1) { // 90% chance of success
+            const data = await res.json();
+            console.log("📥 API response:", data);
+
+            if (data.success) {
                 setMessage({
-                    type: 'success',
-                    text: `Vielen Dank für Ihre Bestellung, ${name}! Sie werden unter ${phone} kontaktiert.`
+                    type: "success",
+                    text: "Order successful! Our team will contact you.",
                 });
-                setName('');
-                setPhone('');
             } else {
                 setMessage({
-                    type: 'error',
-                    text: 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.'
+                    type: "error",
+                    text: data.error || "Order failed",
                 });
             }
-            setIsSubmitting(false);
+        };
 
-        }, [name, phone, country]);
+
+
 
         return (
             // The form section now has a specific ID for the call-to-action links to scroll to
@@ -70,8 +75,8 @@ const FungoKillerPage = () => {
                         50% RABATT SICHERN!
                     </p>
                     <div className="flex justify-center items-center mt-3">
-                        <span className="text-lg line-through opacity-75 mr-3">99,90 €</span>
-                        <span className="text-3xl font-bold">NUR 49,95 €</span>
+                        <span className="text-lg line-through opacity-75 mr-3">78€</span>
+                        <span className="text-3xl font-bold">NUR 39€</span>
                     </div>
                 </div>
 
@@ -190,8 +195,8 @@ const FungoKillerPage = () => {
                 Sichern Sie sich den Fungo Killer mit dem exklusiven Zuschuss direkt über die offizielle Website von Dr. Annika.
             </p>
             <div className="text-center mb-4">
-                <span className="text-sm font-semibold text-gray-500 line-through mr-3">99,90 €</span>
-                <span className="text-3xl font-extrabold text-red-600">49,95 €</span>
+                <span className="text-sm font-semibold text-gray-500 line-through mr-3">78 €</span>
+                <span className="text-3xl font-extrabold text-red-600">39 €</span>
             </div>
             {/* Updated href to link to the new form section */}
             <a
@@ -461,8 +466,8 @@ const FungoKillerPage = () => {
 
                             {/* Embedded Call to Action (Updated href) */}
                             <div className="text-center">
-                                <span className="text-sm font-semibold text-gray-500 line-through mr-3">99,90 €</span>
-                                <span className="text-3xl font-extrabold text-red-600">49,95 €</span>
+                                <span className="text-sm font-semibold text-gray-500 line-through mr-3">78€</span>
+                                <span className="text-3xl font-extrabold text-red-600">39€</span>
                             </div>
                             <a
                                 href="#order-form-section"
